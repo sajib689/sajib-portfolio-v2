@@ -47,21 +47,21 @@ const Main = () => {
     <div className="flex justify-center items-center gap-6 h-screen bg-white">
       <div
         ref={boxOne}
-        className="w-24 h-24 rounded-xl shadow-lg"
+        className="rounded-xl shadow-lg"
       >
-         <Image src={img2} width={70} height={70} alt="box" />
+         <Image src={img2} width={300} height={250} alt="box" />
       </div>
       <div
         ref={boxTwo}
-        className="w-24 h-24 rounded-xl shadow-lg"
+        className="rounded-xl shadow-lg"
       >
-        <Image src={img} width={70} height={70} alt="box" className="object-fill object-center"/>
+        <Image src={img} width={300} height={250} alt="box" className="object-fill object-center"/>
       </div>
       <div
         ref={boxThree}
-        className="w-24 h-24 rounded-xl shadow-lg"
+        className=" rounded-xl shadow-lg"
       >
-        <h1 className="text-balck">Pola da sundor toa</h1>
+        <h1 className="text-black text-4xl">Pola da sundor toa</h1>
       </div>
     </div>
   );
