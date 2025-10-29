@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -19,7 +20,7 @@ const Main = () => {
   useEffect(() => {
     gsap.registerEffect({
   name: "explode",
-  effect: (targets, config) => {
+  effect: (targets: any, config: any) => {
     return gsap.to(targets, {
       scale: 3,
       opacity: 0,
