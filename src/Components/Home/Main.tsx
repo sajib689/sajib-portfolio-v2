@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import Image from "next/image";
-import img from "@/src/assets/image.png"
+import img from "@/src/assets/3.png"
 import img2 from "@/src/assets/2.webp"
 const Main = () => {
   const boxOne = useRef<HTMLDivElement>(null);
