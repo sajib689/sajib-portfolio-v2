@@ -3,18 +3,35 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import Image from "next/image";
-import img from "@/src/assets/image.png";
+import img from "@/src/assets/e.jpg";
 import img2 from "@/src/assets/2.webp";
 
 const Main = () => {
+  
   const boxOne = useRef<HTMLDivElement>(null);
   const boxTwo = useRef<HTMLDivElement>(null);
   const boxThree = useRef<HTMLDivElement>(null);
   const boxFour = useRef<HTMLDivElement>(null);
   const boxFive = useRef<HTMLDivElement>(null);
   const boxSix = useRef<HTMLDivElement>(null);
+  const boxSeven = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    gsap.registerEffect({
+  name: "explode",
+  effect: (targets, config) => {
+    return gsap.to(targets, {
+      scale: 3,
+      opacity: 0,
+      duration: config.duration,
+      y: config.direction === "up" ? -100 : 100,
+      ease: "power2.out",
+    });
+  },
+  defaults: { direction: "up", duration: 2 },
+  extendTimeline: true,
+});
+
     // 🔹 Independent Animations
     gsap.from(boxOne.current, {
       x: 300,
@@ -45,6 +62,8 @@ const Main = () => {
     tl.to(boxFour.current, { x: 600, duration: 1, ease: "linear" })
       .to(boxFive.current, { x: 900, duration: 2, ease: "linear" })
       .to(boxSix.current, { x: 1000, duration: 3, ease: "linear" });
+
+      gsap.effects.explode(boxSeven.current, {direction: "up", duration: 3})
   }, []);
 
   return (
@@ -85,6 +104,10 @@ const Main = () => {
         <div
           ref={boxSix}
           className="w-24 h-24 bg-yellow-400 rounded-lg shadow-md"
+        ></div>
+        <div
+          ref={boxSeven}
+          className="w-48 h-48 bg-red-400 rounded-lg shadow-md"
         ></div>
       </div>
     </div>
