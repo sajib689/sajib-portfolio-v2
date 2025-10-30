@@ -1,115 +1,43 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
+import gsap from "gsap";
+import img from "@/src/assets/3.png"
 import Image from "next/image";
-import img from "@/src/assets/e.jpg";
-import img2 from "@/src/assets/2.webp";
-
 const Main = () => {
-  
-  const boxOne = useRef<HTMLDivElement>(null);
+  const boxOne = useRef<HTMLDivElement>(null); 
   const boxTwo = useRef<HTMLDivElement>(null);
-  const boxThree = useRef<HTMLDivElement>(null);
-  const boxFour = useRef<HTMLDivElement>(null);
-  const boxFive = useRef<HTMLDivElement>(null);
-  const boxSix = useRef<HTMLDivElement>(null);
-  const boxSeven = useRef<HTMLDivElement>(null);
-
+  
   useEffect(() => {
-    gsap.registerEffect({
-  name: "explode",
-  effect: (targets: any, config: any) => {
-    return gsap.to(targets, {
-      scale: 3,
-      opacity: 0,
-      duration: config.duration,
-      y: config.direction === "up" ? -100 : 100,
-      ease: "power2.out",
-    });
-  },
-  defaults: { direction: "up", duration: 2 },
-  extendTimeline: true,
-});
-
-    // 🔹 Independent Animations
-    gsap.from(boxOne.current, {
-      x: 300,
-      duration: 2,
-      ease: "linear",
-      repeat: -1,
-      yoyo: true,
-    });
-
-    gsap.from(boxTwo.current, {
-      x: -300,
-      duration: 2,
-      ease: "linear",
-      repeat: -1,
-      yoyo: true,
-    });
-
-    gsap.from(boxThree.current, {
-      y: 200,
-      duration: 2,
-      ease: "linear",
-      repeat: -1,
-      yoyo: true,
-    });
-
-    // 🔹 Timeline Animation (runs in sequence)
-    const tl = gsap.timeline({ repeat: -1, yoyo: true });
-    tl.to(boxFour.current, { x: 600, duration: 1, ease: "linear" })
-      .to(boxFive.current, { x: 900, duration: 2, ease: "linear" })
-      .to(boxSix.current, { x: 1000, duration: 3, ease: "linear" });
-
-      gsap.effects.explode(boxSeven.current, {direction: "up", duration: 3})
+    if (boxOne.current) {
+      gsap.from(boxOne.current, {
+        y: -200,       
+        opacity: 0,   
+        duration: 1,  
+        ease: "bounce",
+      });
+    }
+    if(boxTwo.current) {
+      gsap.from(boxTwo.current, {
+        y: -200,  
+        opacity: 0,
+        duration: 1,
+        ease: "bounce",
+        yoyo: true,
+        borderRadius: "50%",
+        repeat: -1
+        
+      })
+    }
   }, []);
 
   return (
-    <div className="flex flex-col  gap-8 bg-white">
-      {/* Top Row */}
-      <div className="flex gap-6">
-        <div ref={boxOne} className="rounded-xl shadow-lg overflow-hidden">
-          <Image src={img2} width={300} height={250} alt="box" />
-        </div>
-
-        <div ref={boxTwo} className="rounded-xl shadow-lg overflow-hidden">
-          <Image
-            src={img}
-            width={300}
-            height={250}
-            alt="box"
-            className="object-cover"
-          />
-        </div>
-
-        <div ref={boxThree} className="rounded-xl shadow-lg flex items-center justify-center w-[300px] h-[250px] bg-gray-100">
-          <h1 className="text-black text-2xl font-semibold text-center">
-            Pola da sundor toa 😄
-          </h1>
-        </div>
-      </div>
-
-      {/* Bottom Row (timeline boxes) */}
-      <div className="flex gap-6">
-        <div
-          ref={boxFour}
-          className="w-24 h-24 bg-yellow-400 rounded-lg shadow-md"
-        ></div>
-        <div
-          ref={boxFive}
-          className="w-24 h-24 bg-yellow-400 rounded-lg shadow-md"
-        ></div>
-        <div
-          ref={boxSix}
-          className="w-24 h-24 bg-yellow-400 rounded-lg shadow-md"
-        ></div>
-        <div
-          ref={boxSeven}
-          className="w-48 h-48 bg-red-400 rounded-lg shadow-md"
-        ></div>
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-5 custom-container mt-10">
+      <div ref={boxOne} className="bg-red-500 w-48 h-48 rounded-full"></div>
+      <div  className="bg-red-500 w-48 h-48 rounded-full"></div>
+      <div className="bg-red-500 w-48 h-48 rounded-full"></div>
+      <div ref={boxTwo} className="bg-accent  w-48 h-48 !rounded-full flex flex-col justify-center items-center">
+        <Image className="rounded-full" src={img} width={120} height={120} alt="img"/>
       </div>
     </div>
   );
