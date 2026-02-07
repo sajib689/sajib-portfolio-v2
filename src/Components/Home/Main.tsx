@@ -1,46 +1,50 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import img from "@/src/assets/3.png"
-import Image from "next/image";
-const Main = () => {
-  const boxOne = useRef<HTMLDivElement>(null); 
-  const boxTwo = useRef<HTMLDivElement>(null);
-  
+import { useEffect } from "react";
+import io from "socket.io-client";
+import Hero from "./Hero";
+import About from "./About";
+import Skills from "./Skills";
+import Projects from "./Projects";
+import Contact from "./Contact";
+
+let socket: any;
+
+const Main = ({ projects, isFallback }: { projects: any[], isFallback: boolean }) => {
   useEffect(() => {
-    if (boxOne.current) {
-      gsap.from(boxOne.current, {
-        y: -200,       
-        opacity: 0,   
-        duration: 1,  
-        ease: "bounce",
+    const socketInitializer = async () => {
+      await fetch("/api/socket");
+      socket = io();
+
+      socket.on("connect", () => {
+        console.log("Connected to dynamic tracking");
+        socket.emit("visitor-update", {
+          path: window.location.pathname,
+          userAgent: navigator.userAgent,
+          timestamp: new Date().toISOString(),
+        });
       });
-    }
-    if(boxTwo.current) {
-      gsap.from(boxTwo.current, {
-        y: -200,  
-        opacity: 0,
-        duration: 1,
-        ease: "bounce",
-        yoyo: true,
-        borderRadius: "50%",
-        repeat: -1
-        
-      })
-    }
+    };
+
+    socketInitializer();
+
+    return () => {
+      if (socket) socket.disconnect();
+    };
   }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-5 custom-container mt-10">
-      <div ref={boxOne} className="bg-red-500 w-48 h-48 rounded-full"></div>
-      <div  className="bg-red-500 w-48 h-48 rounded-full"></div>
-      <div className="bg-red-500 w-48 h-48 rounded-full"></div>
-      <div ref={boxTwo} className="bg-accent  w-48 h-48 !rounded-full flex flex-col justify-center items-center">
-        <Image className="rounded-full" src={img} width={120} height={120} alt="img"/>
-      </div>
-    </div>
+    <main>
+      <Hero />
+      <About />
+      <Skills />
+      <Projects projects={projects} isFallback={isFallback} />
+      <Contact />
+    </main>
   );
 };
+
+
+
 
 export default Main;
